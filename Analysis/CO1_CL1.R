@@ -1,0 +1,13 @@
+library(Quandl)
+library(ggplot2)
+Quandl.auth("XQQrEp2ntQZ4Syg2pMbZ")
+
+co1 <- Quandl("CHRIS/ICE_B1")
+cl1 <- Quandl("CHRIS/CME_CL1")
+co1.z <- zoo(co1$Settle, co1$Date)
+cl1.z <- zoo(cl1$Settle, cl1$Date)
+cl1.co1.df <- as.data.frame(merge.zoo(cl1=cl1.z, co1=co1.z, all=TRUE))
+m <- lm(co1~cl1,data=cl1.co1.df)
+summary(m)
+cl1.co1.g <- ggplot(cl1.co1.df, aes(x=cl1, y=co1))
+cl1.co1.g+ geom_point(colour="grey60") + stat_smooth(method=glm, se=F, colour="black")

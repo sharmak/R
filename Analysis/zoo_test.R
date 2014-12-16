@@ -1,4 +1,5 @@
-
+library(Quandl)
+librayr(reshape2)
 zoo.to.data.frame <- function(x.z, s.name) { 
   # index function is used to find the time series in R function
   # Setting row.names removes the date as row.names

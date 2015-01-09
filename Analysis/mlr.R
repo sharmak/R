@@ -1,3 +1,6 @@
+library(zoo)
+library(ggplot2)
+library(fpp)
 class(fancy)
 f <- zoo(fancy, as.Date(as.yearmon(index(fancy))))
 autoplot(f)
@@ -33,3 +36,24 @@ coredata(m.jan)
 boxplot(coredata(m.jan))
 m.jan <- f[months(index(f)) == "December"]
 boxplot(coredata(m.jan))
+dwtest(m, alt="two.sided")
+# Durbin watson indicate
+# 
+# Durbin-Watson test
+# 
+# data:  m
+# DW = 0.967, p-value = 1.832e-06
+# alternative hypothesis: true autocorrelation is not 0
+# Here lower p-value indicate there is significant auto-correlation
+# For no auto correlation, DW is symmetric around 2
+
+
+# Forecast for next 36 months
+fcst <- forecast(m, h=36)
+plot(fcst)
+
+# Question 2:
+head(texasgas)
+ggplot(data=texasgas) + aes(x=price, y=consumption)  + geom_smooth(method=lm)
+m <- lm(texasgas$consumption~texasgas$price)
+plot.lm(m)
